@@ -10,6 +10,10 @@ app.use(express.json());
 // Middleware to enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 
+app.get('/hello', (req: Request, res: Response): void => {
+    res.send('ami beda try kortaci!');
+});
+
 // Root route
 app.get('/', (req: Request, res: Response): void => {
     res.send('Bike shop server is ready!');
