@@ -1,11 +1,15 @@
 import { Server } from 'http';
 import config from './config';
 import app from './index';
+import mongoose from 'mongoose';
 
 const port = config.port;
+const database_url = config.database_url;
 let server: Server;
 async function main() {
     try {
+        await mongoose.connect(database_url as string);
+                console.log('Database connected successfully.');
         server = app.listen(port, () => {
             console.log(`Bike shop server is listening on port ${port}`);
         });
