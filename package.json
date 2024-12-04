@@ -5,7 +5,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:prod": "nodemon dist/server.js",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "format": "prettier --ignore-path .gitignore --write \"src/**/*.{js,ts}\""
   },
   "keywords": [],
   "author": "",
@@ -15,11 +20,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "mongoose": "^8.8.3"
+    "mongoose": "^8.8.3",
+    "nodemon": "^3.1.7",
+    "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@types/cors": "^2.8.17",
     "@types/eslint__js": "^8.42.3",
+    "@types/express": "^5.0.0",
     "@types/node": "^22.10.1",
     "eslint": "^9.14.0",
     "globals": "^15.13.0",
