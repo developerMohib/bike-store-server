@@ -9,9 +9,9 @@ let server: Server;
 async function main() {
     try {
         await mongoose.connect(database_url as string);
-                console.log('Database connected successfully.');
+        console.log('Database connected successfully.🤞');
         server = app.listen(port, () => {
-            console.log(`Bike shop server is listening on port ${port}`);
+            console.log(`Bike shop server is listening on port ${port} 🏃`);
         });
     } catch (error) {
         console.error(`Failed to start the server: ${error}`);
