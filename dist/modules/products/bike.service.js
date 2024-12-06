@@ -12,14 +12,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProductService = exports.createProductService = void 0;
 const bike_model_1 = require("./bike.model");
 const createProductService = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const newProduct = new bike_model_1.Product(data);
-    const result = yield newProduct.save();
-    return result;
+    try {
+        const newProduct = new bike_model_1.Product(data);
+        const result = yield newProduct.save();
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
 });
 exports.createProductService = createProductService;
 // get all products
 const getProductService = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield bike_model_1.Product.find();
-    return result;
+    try {
+        const result = yield bike_model_1.Product.find();
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
 });
 exports.getProductService = getProductService;

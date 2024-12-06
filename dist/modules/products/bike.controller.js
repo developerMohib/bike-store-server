@@ -12,13 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProduct = exports.createProduct = void 0;
 const bike_service_1 = require("./bike.service");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const productData = req.body;
-    const result = yield (0, bike_service_1.createProductService)(productData);
-    res.status(200).json({
-        success: true,
-        message: 'Product created successfully',
-        data: result,
-    });
+    try {
+        const productData = req.body.productData;
+        const result = yield (0, bike_service_1.createProductService)(productData);
+        res.status(200).json({
+            success: true,
+            message: 'Product created successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'something went wrong to find data',
+            error
+        });
+    }
 });
 exports.createProduct = createProduct;
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

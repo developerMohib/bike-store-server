@@ -13,7 +13,7 @@ const productSchema = new Schema<IBike>(
                 'Product name should be more than 100 characters long',
             ],
         },
-        brand: {
+        brand: {            
             type: String,
             required: [true, 'Product brand name is required'],
             trim: true,

@@ -7,3 +7,7 @@ export interface IBike {
     quantity: number;
     inStock: boolean;
 }
+
+export interface IError {
+    message : string
+}
