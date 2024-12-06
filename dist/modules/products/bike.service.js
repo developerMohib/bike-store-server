@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductService = exports.createProductService = void 0;
+exports.updateProductService = exports.getSingleProductService = exports.getProductService = exports.createProductService = void 0;
+const mongoose_1 = require("mongoose");
 const bike_model_1 = require("./bike.model");
 const createProductService = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -33,3 +34,30 @@ const getProductService = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getProductService = getProductService;
+// get all products
+const getSingleProductService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const objectId = new mongoose_1.Types.ObjectId(id);
+        const result = yield bike_model_1.Product.aggregate([{ $match: { _id: objectId } }]);
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.getSingleProductService = getSingleProductService;
+// get all products
+const updateProductService = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const objectId = new mongoose_1.Types.ObjectId(id);
+        const result = yield bike_model_1.Product.findByIdAndUpdate(objectId, data, {
+            new: true,
+            runValidators: true,
+        });
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.updateProductService = updateProductService;

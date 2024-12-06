@@ -15,6 +15,7 @@ app.use((0, cors_1.default)());
 // route for my functionality --> start
 app.use('/create', bike_routes_1.bikeRouter);
 app.use('/get', bike_routes_1.bikeRouter);
+app.use('/update', bike_routes_1.bikeRouter);
 // route for my functionality --> end
 // Root route
 app.get('/', (req, res) => {

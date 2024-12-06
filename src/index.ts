@@ -15,6 +15,7 @@ app.use(cors());
 
 app.use('/create',bikeRouter)
 app.use('/get',bikeRouter)
+app.use('/update',bikeRouter)
 
 
 // route for my functionality --> end

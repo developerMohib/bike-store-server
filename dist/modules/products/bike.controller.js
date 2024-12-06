@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProduct = exports.createProduct = void 0;
+exports.updateOneProduct = exports.getSingleProduct = exports.getProduct = exports.createProduct = void 0;
 const bike_service_1 = require("./bike.service");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -25,11 +25,12 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(400).json({
             success: false,
             message: 'something went wrong to find data',
-            error
+            error,
         });
     }
 });
 exports.createProduct = createProduct;
+// get all products
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, bike_service_1.getProductService)();
@@ -43,8 +44,49 @@ const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(400).json({
             success: false,
             message: 'something went wrong to find data',
-            error
+            error,
         });
     }
 });
 exports.getProduct = getProduct;
+// get single product
+const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.productId;
+        const result = yield (0, bike_service_1.getSingleProductService)(productId);
+        res.status(200).json({
+            success: true,
+            message: 'Product retrive successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'something went wrong to find data',
+            error,
+        });
+    }
+});
+exports.getSingleProduct = getSingleProduct;
+// get single product
+const updateOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.productId;
+        const newData = req.body.newData;
+        const result = yield (0, bike_service_1.updateProductService)(productId, newData);
+        res.status(200).json({
+            success: true,
+            message: 'Product retrive successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'something went wrong to find data',
+            error,
+        });
+    }
+});
+exports.updateOneProduct = updateOneProduct;
