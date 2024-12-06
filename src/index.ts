@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
+import { bikeRouter } from './modules/products/bike.routes';
 
 const app: Application = express();
 
@@ -10,18 +11,20 @@ app.use(express.json());
 // Middleware to enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 
-app.get('/hello', (req: Request, res: Response): void => {
-    res.send('ami beda try kortaci!');
-});
+// route for my functionality --> start
+
+app.use('/create',bikeRouter)
+app.use('/get',bikeRouter)
+
+
+// route for my functionality --> end
+
+
+
 
 // Root route
 app.get('/', (req: Request, res: Response): void => {
     res.send('Bike shop server is ready!✌');
-});
-
-// Health check route
-app.get('/health', (req: Request, res: Response): void => {
-    res.status(200).send({ status: 'UP' });
 });
 
 // Global route error handler

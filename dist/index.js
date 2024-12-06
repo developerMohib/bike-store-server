@@ -6,21 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandler_1 = require("./middlewares/errorHandler");
+const bike_routes_1 = require("./modules/products/bike.routes");
 const app = (0, express_1.default)();
 // Middleware to parse JSON bodies
 app.use(express_1.default.json());
 // Middleware to enable Cross-Origin Resource Sharing (CORS)
 app.use((0, cors_1.default)());
-app.get('/hello', (req, res) => {
-    res.send('ami beda try kortaci!');
-});
+// route for my functionality --> start
+app.use('/create', bike_routes_1.bikeRouter);
+app.use('/get', bike_routes_1.bikeRouter);
+// route for my functionality --> end
 // Root route
 app.get('/', (req, res) => {
     res.send('Bike shop server is ready!✌');
-});
-// Health check route
-app.get('/health', (req, res) => {
-    res.status(200).send({ status: 'UP' });
 });
 // Global route error handler
 app.all('*', (req, res) => {
