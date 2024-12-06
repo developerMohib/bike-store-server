@@ -22,7 +22,7 @@ const getProductService = async (): Promise<IBike[] | null> => {
     }
 };
 
-// get all products
+// get single product
 const getSingleProductService = async (id: string): Promise<IBike[] | null> => {
     try {
         const objectId = new Types.ObjectId(id);
@@ -34,26 +34,51 @@ const getSingleProductService = async (id: string): Promise<IBike[] | null> => {
     }
 };
 
-// get all products
+// update a product
 const updateProductService = async (
     id: string,
     data: IBike
 ): Promise<IBike | null> => {
     try {
         const objectId = new Types.ObjectId(id);
-        const result = await Product.findByIdAndUpdate(objectId, data, {
-            new: true,
-            runValidators: true,
-        });
+        const result = await Product.findByIdAndUpdate(
+            { _id: objectId },
+            data,
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
 
         return result;
     } catch (error) {
         throw new Error((error as IError).message);
     }
 };
+
+// delete single product
+const deleteProductService = async (id: string): Promise<IBike | null> => {
+    try {
+        const objectId = new Types.ObjectId(id);
+        const result = await Product.findOneAndUpdate(
+            { _id: objectId },
+            { isDeleted: true },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+        return result;
+    } catch (error) {
+        throw new Error((error as IError).message);
+    }
+};
+
+// export here
 export {
     createProductService,
     getProductService,
     getSingleProductService,
     updateProductService,
+    deleteProductService,
 };

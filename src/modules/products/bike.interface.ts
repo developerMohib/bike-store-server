@@ -6,8 +6,9 @@ export interface IBike {
     description: string;
     quantity: number;
     inStock: boolean;
+    isDeleted: boolean;
 }
 
 export interface IError {
-    message : string
+    message: string;
 }

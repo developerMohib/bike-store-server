@@ -51,6 +51,10 @@ const productSchema = new Schema<IBike>(
             type: Boolean,
             default: true,
         },
+        isDeleted: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,

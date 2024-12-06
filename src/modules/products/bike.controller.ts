@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import {
     createProductService,
+    deleteProductService,
     getProductService,
     getSingleProductService,
     updateProductService,
@@ -49,7 +50,7 @@ const getSingleProduct = async (req: Request, res: Response): Promise<void> => {
         const result = await getSingleProductService(productId);
         res.status(200).json({
             success: true,
-            message: 'Product retrive successfully',
+            message: 'Your product retrive successfully',
             data: result,
         });
     } catch (error) {
@@ -61,7 +62,7 @@ const getSingleProduct = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-// get single product
+// update single product
 const updateOneProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const productId = req.params.productId;
@@ -69,7 +70,7 @@ const updateOneProduct = async (req: Request, res: Response): Promise<void> => {
         const result = await updateProductService(productId, newData);
         res.status(200).json({
             success: true,
-            message: 'Product retrive successfully',
+            message: 'Product updated successfully',
             data: result,
         });
     } catch (error) {
@@ -81,4 +82,30 @@ const updateOneProduct = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-export { createProduct, getProduct, getSingleProduct, updateOneProduct };
+// delete single product
+const deleteProduct = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const productId = req.params.productId;
+        const result = await deleteProductService(productId);
+        res.status(200).json({
+            success: true,
+            message: 'Product deleted successfully',
+            data: result,
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'something went wrong to find data',
+            error,
+        });
+    }
+};
+
+// export here
+export {
+    createProduct,
+    getProduct,
+    getSingleProduct,
+    updateOneProduct,
+    deleteProduct,
+};

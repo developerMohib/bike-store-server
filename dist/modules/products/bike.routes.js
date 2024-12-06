@@ -8,5 +8,6 @@ router.post('/api/products', bike_controller_1.createProduct);
 router.get('/api/products', bike_controller_1.getProduct);
 router.get('/api/products/:productId', bike_controller_1.getSingleProduct);
 router.put('/api/products/:productId', bike_controller_1.updateOneProduct);
+router.delete('/api/products/:productId', bike_controller_1.deleteProduct);
 // Export the router
 exports.bikeRouter = router;

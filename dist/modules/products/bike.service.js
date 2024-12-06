@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProductService = exports.getSingleProductService = exports.getProductService = exports.createProductService = void 0;
+exports.deleteProductService = exports.updateProductService = exports.getSingleProductService = exports.getProductService = exports.createProductService = void 0;
 const mongoose_1 = require("mongoose");
 const bike_model_1 = require("./bike.model");
 const createProductService = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,7 +34,7 @@ const getProductService = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getProductService = getProductService;
-// get all products
+// get single product
 const getSingleProductService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const objectId = new mongoose_1.Types.ObjectId(id);
@@ -46,11 +46,11 @@ const getSingleProductService = (id) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.getSingleProductService = getSingleProductService;
-// get all products
+// update a product
 const updateProductService = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const objectId = new mongoose_1.Types.ObjectId(id);
-        const result = yield bike_model_1.Product.findByIdAndUpdate(objectId, data, {
+        const result = yield bike_model_1.Product.findByIdAndUpdate({ _id: objectId }, data, {
             new: true,
             runValidators: true,
         });
@@ -61,3 +61,18 @@ const updateProductService = (id, data) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.updateProductService = updateProductService;
+// delete single product
+const deleteProductService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const objectId = new mongoose_1.Types.ObjectId(id);
+        const result = yield bike_model_1.Product.findOneAndUpdate({ _id: objectId }, { isDeleted: true }, {
+            new: true,
+            runValidators: true,
+        });
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.deleteProductService = deleteProductService;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateOneProduct = exports.getSingleProduct = exports.getProduct = exports.createProduct = void 0;
+exports.deleteProduct = exports.updateOneProduct = exports.getSingleProduct = exports.getProduct = exports.createProduct = void 0;
 const bike_service_1 = require("./bike.service");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -56,7 +56,7 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const result = yield (0, bike_service_1.getSingleProductService)(productId);
         res.status(200).json({
             success: true,
-            message: 'Product retrive successfully',
+            message: 'Your product retrive successfully',
             data: result,
         });
     }
@@ -69,7 +69,7 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getSingleProduct = getSingleProduct;
-// get single product
+// update single product
 const updateOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productId = req.params.productId;
@@ -77,7 +77,7 @@ const updateOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const result = yield (0, bike_service_1.updateProductService)(productId, newData);
         res.status(200).json({
             success: true,
-            message: 'Product retrive successfully',
+            message: 'Product updated successfully',
             data: result,
         });
     }
@@ -90,3 +90,23 @@ const updateOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.updateOneProduct = updateOneProduct;
+// delete single product
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.productId;
+        const result = yield (0, bike_service_1.deleteProductService)(productId);
+        res.status(200).json({
+            success: true,
+            message: 'Product deleted successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: 'something went wrong to find data',
+            error,
+        });
+    }
+});
+exports.deleteProduct = deleteProduct;
