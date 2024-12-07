@@ -30,6 +30,9 @@ app.all('*', (req, res) => {
     });
 });
 // Global error handler middleware
-app.use(errorHandler_1.errorHandler);
+// app.use(errorHandler);
+app.use((error, req, res, next) => {
+    (0, errorHandler_1.errorHandler)(error, req, res, next);
+});
 // Export the app
 exports.default = app;

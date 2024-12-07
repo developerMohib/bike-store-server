@@ -8,7 +8,3 @@ export interface IBike {
     inStock: boolean;
     isDeleted: boolean;
 }
-
-export interface IError {
-    message: string;
-}

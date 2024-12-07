@@ -1,3 +1,5 @@
+// custom error interface for throwing error
+
 class CustomError extends Error {
     statusCode: number;
     additionalData?: string;
@@ -11,4 +13,8 @@ class CustomError extends Error {
         Object.setPrototypeOf(this, new.target.prototype);
     }
 }
-export { CustomError };
+
+interface IError {
+    message: string;
+}
+export { CustomError ,IError};

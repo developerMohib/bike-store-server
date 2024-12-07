@@ -1,4 +1,5 @@
 "use strict";
+// custom error interface for throwing error
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomError = void 0;
 class CustomError extends Error {

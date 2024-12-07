@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
-import { IBike, IError } from './bike.interface';
+import { IBike} from './bike.interface';
 import { Product } from './bike.model';
+import { IError } from '../../utils/CustomError';
 
 const createProductService = async (data: IBike): Promise<IBike> => {
     try {

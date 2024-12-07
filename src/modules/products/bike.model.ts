@@ -13,7 +13,7 @@ const productSchema = new Schema<IBike>(
                 'Product name should be more than 100 characters long',
             ],
         },
-        brand: {            
+        brand: {
             type: String,
             required: [true, 'Product brand name is required'],
             trim: true,
@@ -21,7 +21,7 @@ const productSchema = new Schema<IBike>(
         price: {
             type: Number,
             required: [true, 'Price is required'],
-            min: [0, 'Price should be positive number'],
+            min: [0, 'Price must be a positive number'],
             trim: true,
         },
         category: {
@@ -29,7 +29,8 @@ const productSchema = new Schema<IBike>(
             required: [true, 'Category is required'],
             enum: {
                 values: ['Mountain', 'Road', 'Hybrid', 'Electric'],
-                message: '{VALUE} is not valid category',
+                message:
+                    '{VALUE} is not valid category. And the category are Mountain, Road, Hybrid, Electric',
             },
         },
         description: {
@@ -61,6 +62,21 @@ const productSchema = new Schema<IBike>(
     }
 );
 
-const Product = model('Product', productSchema);
+// mongoose middleware
+// pre --> for deleted user
+productSchema.pre('find', async function (next) {
+    this.find({ isDeleted: { $ne: true } });
+    next();
+});
+
+// aggregation --> spacific user find but deleted
+productSchema.pre('aggregate', async function (next) {
+    const pipeline = this.pipeline();
+    // pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
+    pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
+    next();
+});
+
+const Product = model<IBike>('Product', productSchema);
 
 export { Product };

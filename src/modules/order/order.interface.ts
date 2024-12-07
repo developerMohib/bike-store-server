@@ -5,5 +5,5 @@ export interface IOrder {
     brand: string;
     product: ObjectId;
     quantity: number;
-    totalPrice: boolean;
+    totalPrice: number;
 }

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 const mongoose_1 = require("mongoose");
@@ -21,7 +30,7 @@ const productSchema = new mongoose_1.Schema({
     price: {
         type: Number,
         required: [true, 'Price is required'],
-        min: [0, 'Price should be positive number'],
+        min: [0, 'Price must be a positive number'],
         trim: true,
     },
     category: {
@@ -29,7 +38,7 @@ const productSchema = new mongoose_1.Schema({
         required: [true, 'Category is required'],
         enum: {
             values: ['Mountain', 'Road', 'Hybrid', 'Electric'],
-            message: '{VALUE} is not valid category',
+            message: '{VALUE} is not valid category. And the category are Mountain, Road, Hybrid, Electric',
         },
     },
     description: {
@@ -57,6 +66,23 @@ const productSchema = new mongoose_1.Schema({
     },
 }, {
     timestamps: true,
+});
+// mongoose middleware
+// pre --> for deleted user
+productSchema.pre('find', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        this.find({ isDeleted: { $ne: true } });
+        next();
+    });
+});
+// aggregation --> spacific user find but deleted
+productSchema.pre('aggregate', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const pipeline = this.pipeline();
+        // pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
+        pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
+        next();
+    });
 });
 const Product = (0, mongoose_1.model)('Product', productSchema);
 exports.Product = Product;

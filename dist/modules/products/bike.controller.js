@@ -17,16 +17,25 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const result = yield (0, bike_service_1.createProductService)(productData);
         res.status(200).json({
             success: true,
-            message: 'Product created successfully',
+            message: 'Product is created successfully!',
             data: result,
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: 'something went wrong to find data',
-            error,
-        });
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                error: error.message,
+            });
+        }
+        else {
+            // In case error is not an instance of Error
+            res.status(500).json({
+                success: false,
+                message: 'An unknown error occurred',
+                error: String(error),
+            });
+        }
     }
 });
 exports.createProduct = createProduct;
@@ -36,16 +45,25 @@ const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const result = yield (0, bike_service_1.getProductService)();
         res.status(200).json({
             success: true,
-            message: 'Product created successfully',
+            message: 'All product retrive successfully',
             data: result,
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: 'something went wrong to find data',
-            error,
-        });
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                error: error.message,
+            });
+        }
+        else {
+            // In case error is not an instance of Error
+            res.status(500).json({
+                success: false,
+                message: 'An unknown error occurred',
+                error: String(error),
+            });
+        }
     }
 });
 exports.getProduct = getProduct;
@@ -61,11 +79,20 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: 'something went wrong to find data',
-            error,
-        });
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                error: error.message,
+            });
+        }
+        else {
+            // In case error is not an instance of Error
+            res.status(500).json({
+                success: false,
+                message: 'An unknown error occurred',
+                error: String(error),
+            });
+        }
     }
 });
 exports.getSingleProduct = getSingleProduct;
@@ -82,11 +109,20 @@ const updateOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: 'something went wrong to find data',
-            error,
-        });
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                error: error.message,
+            });
+        }
+        else {
+            // In case error is not an instance of Error
+            res.status(500).json({
+                success: false,
+                message: 'An unknown error occurred',
+                error: String(error),
+            });
+        }
     }
 });
 exports.updateOneProduct = updateOneProduct;
@@ -94,19 +130,28 @@ exports.updateOneProduct = updateOneProduct;
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productId = req.params.productId;
-        const result = yield (0, bike_service_1.deleteProductService)(productId);
+        yield (0, bike_service_1.deleteProductService)(productId);
         res.status(200).json({
             success: true,
-            message: 'Product deleted successfully',
-            data: result,
+            message: 'Bike deleted successfully',
+            data: {},
         });
     }
     catch (error) {
-        res.status(400).json({
-            success: false,
-            message: 'something went wrong to find data',
-            error,
-        });
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                error: error.message,
+            });
+        }
+        else {
+            // In case error is not an instance of Error
+            res.status(500).json({
+                success: false,
+                message: 'An unknown error occurred',
+                error: String(error),
+            });
+        }
     }
 });
 exports.deleteProduct = deleteProduct;

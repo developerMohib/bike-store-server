@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
 import { bikeRouter } from './modules/products/bike.routes';
@@ -38,6 +38,9 @@ app.all('*', (req: Request, res: Response): void => {
 });
 
 // Global error handler middleware
-app.use(errorHandler);
+// app.use(errorHandler);
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    errorHandler(error, req, res, next);
+  });
 // Export the app
 export default app;
