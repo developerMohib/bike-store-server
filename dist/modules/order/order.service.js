@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOrderService = exports.createOrderService = void 0;
+exports.deleteOrderService = exports.getOrderService = exports.createOrderService = void 0;
+const mongoose_1 = require("mongoose");
 const order_model_1 = require("./order.model");
-const createOrderService = (data) => __awaiter(void 0, void 0, void 0, function* () {
+const createOrderService = (_a) => __awaiter(void 0, [_a], void 0, function* ({ email, product, quantity, totalPrice, }) {
     try {
-        const newOrder = new order_model_1.Order(data);
+        const newOrder = new order_model_1.Order({ email, product, quantity, totalPrice });
         const result = yield newOrder.save();
         return result;
     }
@@ -33,3 +34,16 @@ const getOrderService = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getOrderService = getOrderService;
+// delete a order
+const deleteOrderService = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        console.log('25 ', id);
+        const objectId = new mongoose_1.Types.ObjectId(id);
+        const result = yield order_model_1.Order.findByIdAndDelete({ _id: objectId });
+        return result;
+    }
+    catch (error) {
+        throw new Error(error.message);
+    }
+});
+exports.deleteOrderService = deleteOrderService;

@@ -6,7 +6,7 @@ const errorHandler = (
     error: Error | CustomError,
     req: Request,
     res: Response,
-    next:NextFunction
+    next: NextFunction
 ): void => {
     const message =
         error instanceof CustomError ? error.message : 'something went wrong';
@@ -14,11 +14,9 @@ const errorHandler = (
     const additionalData =
         error instanceof CustomError ? error.additionalData : null;
 
-        // Extract validation error details, if any
-  const errorDetails =
-  error.name === "ValidationError"
-    ? (error as any).errors
-    : null;
+    // Extract validation error details, if any
+    const errorDetails =
+        error.name === 'ValidationError' ? (error as any).errors : null;
 
     res.status(statusCode).json({
         success: false,
@@ -28,7 +26,7 @@ const errorHandler = (
         error: {
             name: error.name,
             details: errorDetails || null,
-          },
+        },
     });
 };
 

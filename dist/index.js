@@ -7,16 +7,22 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandler_1 = require("./middlewares/errorHandler");
 const bike_routes_1 = require("./modules/products/bike.routes");
+const order_routes_1 = require("./modules/order/order.routes");
 const app = (0, express_1.default)();
 // Middleware to parse JSON bodies
 app.use(express_1.default.json());
 // Middleware to enable Cross-Origin Resource Sharing (CORS)
 app.use((0, cors_1.default)());
 // route for my functionality --> start
+// products routes
 app.use('/create', bike_routes_1.bikeRouter);
 app.use('/get', bike_routes_1.bikeRouter);
 app.use('/update', bike_routes_1.bikeRouter);
 app.use('/delete', bike_routes_1.bikeRouter);
+// order routes
+app.use('/create', order_routes_1.orderRouter);
+app.use('/get', order_routes_1.orderRouter);
+app.use('/delete', order_routes_1.orderRouter);
 // route for my functionality --> end
 // Root route
 app.get('/', (req, res) => {

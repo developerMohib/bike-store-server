@@ -17,4 +17,4 @@ class CustomError extends Error {
 interface IError {
     message: string;
 }
-export { CustomError ,IError};
+export { CustomError, IError };

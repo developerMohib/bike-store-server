@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler';
 import { bikeRouter } from './modules/products/bike.routes';
+import { orderRouter } from './modules/order/order.routes';
 
 const app: Application = express();
 
@@ -13,16 +14,18 @@ app.use(cors());
 
 // route for my functionality --> start
 
-app.use('/create',bikeRouter)
-app.use('/get',bikeRouter)
-app.use('/update',bikeRouter)
-app.use('/delete',bikeRouter)
+// products routes
+app.use('/create', bikeRouter);
+app.use('/get', bikeRouter);
+app.use('/update', bikeRouter);
+app.use('/delete', bikeRouter);
 
+// order routes
+app.use('/create', orderRouter);
+app.use('/get', orderRouter);
+app.use('/delete', orderRouter);
 
 // route for my functionality --> end
-
-
-
 
 // Root route
 app.get('/', (req: Request, res: Response): void => {
@@ -41,6 +44,6 @@ app.all('*', (req: Request, res: Response): void => {
 // app.use(errorHandler);
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     errorHandler(error, req, res, next);
-  });
+});
 // Export the app
 export default app;

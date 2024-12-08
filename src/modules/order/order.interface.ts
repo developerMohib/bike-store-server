@@ -1,9 +1,8 @@
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface IOrder {
     email: string;
-    brand: string;
-    product: ObjectId;
+    product: Types.ObjectId;
     quantity: number;
     totalPrice: number;
 }

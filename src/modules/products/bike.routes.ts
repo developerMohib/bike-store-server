@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { createProduct, deleteProduct, getProduct, getSingleProduct, updateOneProduct } from './bike.controller';
+import {
+    createProduct,
+    deleteProduct,
+    getProduct,
+    getSingleProduct,
+    updateOneProduct,
+} from './bike.controller';
 
 const router = Router();
 

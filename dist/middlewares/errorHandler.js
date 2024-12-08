@@ -7,9 +7,7 @@ const errorHandler = (error, req, res, next) => {
     const statusCode = error instanceof CustomError_1.CustomError ? error.statusCode : 500;
     const additionalData = error instanceof CustomError_1.CustomError ? error.additionalData : null;
     // Extract validation error details, if any
-    const errorDetails = error.name === "ValidationError"
-        ? error.errors
-        : null;
+    const errorDetails = error.name === 'ValidationError' ? error.errors : null;
     res.status(statusCode).json({
         success: false,
         // message: error.message || "Something went wrong",
