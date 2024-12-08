@@ -30,6 +30,8 @@ const orderSchema = new mongoose_1.Schema({
         min: [0, 'Price Price should be a positive number'],
         trim: true,
     },
+}, {
+    timestamps: true,
 });
 const Order = (0, mongoose_1.model)('Order', orderSchema);
 exports.Order = Order;

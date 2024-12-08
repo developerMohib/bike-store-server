@@ -1,7 +1,6 @@
 import { Types } from 'mongoose';
 import { IError } from '../../utils/CustomError';
 import { Order } from './order.model';
-
 import { IOrder } from './order.interface';
 
 const createOrderService = async ({
@@ -32,7 +31,6 @@ const getOrderService = async (): Promise<IOrder[] | null> => {
 // delete a order
 const deleteOrderService = async (id: string): Promise<IOrder | null> => {
     try {
-        console.log('25 ', id);
         const objectId = new Types.ObjectId(id);
         const result = await Order.findByIdAndDelete({ _id: objectId });
         return result;
@@ -41,5 +39,54 @@ const deleteOrderService = async (id: string): Promise<IOrder | null> => {
     }
 };
 
+const revenueCalculateService = async () => {
+    try {
+        const calculateRevenue = await Order.aggregate([
+            {
+                $lookup: {
+                    from: 'products', // this the collection
+                    localField: 'product', // in local field i save id to product - local means order collection
+                    foreignField: '_id', // in product collection data save with _id
+                    as: 'productDetails',
+                },
+            },
+            // Unwind productDetails => to access the price field
+            { $unwind: '$productDetails' },
+
+            // Project price fields and calculate revenue per order
+            {
+                $project: {
+                    email: 1,
+                    product: 1,
+                    quantity: 1,
+                    productPrice: '$productDetails.price',
+                    orderRevenue: {
+                        $multiply: ['$quantity', '$productDetails.price'],
+                    },
+                },
+            },
+
+            // calculate total revenue and grouping
+            {
+                $group: {
+                    _id: null,
+                    totalRevenue: { $sum: '$orderRevenue' },
+                },
+            },
+        ]);
+        const totalRevenue =
+            calculateRevenue.length > 0 ? calculateRevenue[0].totalRevenue : 0;
+
+        return totalRevenue;
+    } catch (error) {
+        throw new Error((error as IError).message);
+    }
+};
+
 // export here
-export { createOrderService, getOrderService, deleteOrderService };
+export {
+    createOrderService,
+    getOrderService,
+    deleteOrderService,
+    revenueCalculateService,
+};

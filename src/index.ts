@@ -25,6 +25,9 @@ app.use('/create', orderRouter);
 app.use('/get', orderRouter);
 app.use('/delete', orderRouter);
 
+// revenue
+app.use('/api/orders', orderRouter);
+
 // route for my functionality --> end
 
 // Root route

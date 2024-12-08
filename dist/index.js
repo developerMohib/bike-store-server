@@ -23,6 +23,8 @@ app.use('/delete', bike_routes_1.bikeRouter);
 app.use('/create', order_routes_1.orderRouter);
 app.use('/get', order_routes_1.orderRouter);
 app.use('/delete', order_routes_1.orderRouter);
+// revenue
+app.use('/api/orders', order_routes_1.orderRouter);
 // route for my functionality --> end
 // Root route
 app.get('/', (req, res) => {
