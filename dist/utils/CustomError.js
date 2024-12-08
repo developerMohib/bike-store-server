@@ -1,14 +1,13 @@
 "use strict";
-// custom error interface for throwing error
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomError = void 0;
+// custom error interface for throwing error
 class CustomError extends Error {
-    constructor(message, statusCode, additionalData) {
+    constructor(message, statusCode = 500, additionalData, validationErrors) {
         super(message);
         this.statusCode = statusCode;
         this.additionalData = additionalData;
-        // Ensure that instanceof works properly
-        Object.setPrototypeOf(this, new.target.prototype);
+        this.validationErrors = validationErrors;
     }
 }
 exports.CustomError = CustomError;

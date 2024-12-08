@@ -31,6 +31,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             });
             return;
         }
+        // instock availability
         if (existProduct.quantity < quantity) {
             res.status(400).json({
                 message: 'Insufficient stock',

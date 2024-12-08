@@ -28,6 +28,8 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
             });
             return;
         }
+
+        // instock availability
         if (existProduct.quantity < quantity) {
             res.status(400).json({
                 message: 'Insufficient stock',

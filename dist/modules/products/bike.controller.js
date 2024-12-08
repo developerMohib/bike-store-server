@@ -11,9 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.updateOneProduct = exports.getSingleProduct = exports.getProduct = exports.createProduct = void 0;
 const bike_service_1 = require("./bike.service");
+const CustomError_1 = require("../../utils/CustomError");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productData = req.body.productData;
+        if (!productData) {
+            throw new CustomError_1.CustomError('Product data is required', 400, 'name');
+        }
         const result = yield (0, bike_service_1.createProductService)(productData);
         res.status(200).json({
             success: true,
@@ -22,6 +26,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
+        // next(error);
         if (error instanceof Error) {
             res.status(500).json({
                 success: false,
@@ -43,6 +48,15 @@ exports.createProduct = createProduct;
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield (0, bike_service_1.getProductService)();
+        if (!result || result.length === 0) {
+            res.status(404).json({
+                success: true,
+                message: 'No data found',
+                data: [],
+            });
+            return;
+        }
+        // data found when it more than 0
         res.status(200).json({
             success: true,
             message: 'All product retrive successfully',
@@ -72,6 +86,15 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const productId = req.params.productId;
         const result = yield (0, bike_service_1.getSingleProductService)(productId);
+        if (!result || result.length === 0) {
+            res.status(404).json({
+                success: true,
+                message: 'No data found',
+                data: {},
+            });
+            return;
+        }
+        // if data is exist more than 0
         res.status(200).json({
             success: true,
             message: 'Your product retrive successfully',

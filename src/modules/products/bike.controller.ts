@@ -7,17 +7,24 @@ import {
     updateProductService,
 } from './bike.service';
 import { IBike } from './bike.interface';
+import { CustomError } from '../../utils/CustomError';
 
 const createProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const productData: IBike = req.body.productData;
+
+        if (!productData) {
+            throw new CustomError('Product data is required', 400, 'name');
+        }
+
         const result = await createProductService(productData);
         res.status(200).json({
             success: true,
             message: 'Product is created successfully!',
             data: result,
         });
-    } catch (error) {
+    } catch (error: unknown) {
+        // next(error);
         if (error instanceof Error) {
             res.status(500).json({
                 success: false,
@@ -38,6 +45,16 @@ const createProduct = async (req: Request, res: Response): Promise<void> => {
 const getProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const result = await getProductService();
+        if (!result || result.length === 0) {
+            res.status(404).json({
+                success: true,
+                message: 'No data found',
+                data: [],
+            });
+            return;
+        }
+
+        // data found when it more than 0
         res.status(200).json({
             success: true,
             message: 'All product retrive successfully',
@@ -65,6 +82,17 @@ const getSingleProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const productId = req.params.productId;
         const result = await getSingleProductService(productId);
+
+        if (!result || result.length === 0) {
+            res.status(404).json({
+                success: true,
+                message: 'No data found',
+                data: {},
+            });
+            return;
+        }
+
+        // if data is exist more than 0
         res.status(200).json({
             success: true,
             message: 'Your product retrive successfully',

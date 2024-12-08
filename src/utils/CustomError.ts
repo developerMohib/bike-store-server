@@ -1,16 +1,19 @@
 // custom error interface for throwing error
-
 class CustomError extends Error {
-    statusCode: number;
-    additionalData?: string;
+    public statusCode: number;
+    public additionalData?: string;
+    public validationErrors?: string;
 
-    constructor(message: string, statusCode: number, additionalData: string) {
+    constructor(
+        message: string,
+        statusCode: number = 500,
+        additionalData?: string,
+        validationErrors?: string
+    ) {
         super(message);
         this.statusCode = statusCode;
         this.additionalData = additionalData;
-
-        // Ensure that instanceof works properly
-        Object.setPrototypeOf(this, new.target.prototype);
+        this.validationErrors = validationErrors;
     }
 }
 
