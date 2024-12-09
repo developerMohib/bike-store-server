@@ -7,7 +7,7 @@ Welcome to **Bike Store**, a backend application designed to manage products, or
 ---
 
 ## 📹 **Project Video View**
-Watch its features and functionality [Video]()
+Watch its features and functionality [Video](https://youtu.be/vbe8HFxhz_U?si=VFsnAj1dpEXtsYTQ)
 
 ---
 
