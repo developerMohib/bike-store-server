@@ -6,8 +6,12 @@ import {
     revenueCalculateService,
 } from './order.service';
 import { Product } from '../products/bike.model';
+import { IOrder } from './order.interface';
 
-const createOrder = async (req: Request, res: Response): Promise<void> => {
+const createOrder = async (
+    req: Request<object, object, IOrder>,
+    res: Response
+): Promise<void> => {
     try {
         // here will be functionality
         const { email, product, quantity, totalPrice } = req.body;
@@ -68,7 +72,7 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
 };
 
 // get all orders
-const getOrders = async (req: Request, res: Response) => {
+const getOrders = async (req: Request, res: Response): Promise<void> => {
     try {
         const result = await getOrderService();
         res.status(200).json({
@@ -94,9 +98,9 @@ const getOrders = async (req: Request, res: Response) => {
 };
 
 // delete order
-const deleteOrder = async (req: Request, res: Response) => {
+const deleteOrder = async (req: Request, res: Response): Promise<void> => {
     try {
-        const id = req.params.id;
+        const id: string = req.params.id;
         await deleteOrderService(id);
         res.status(200).json({
             success: true,
@@ -121,7 +125,7 @@ const deleteOrder = async (req: Request, res: Response) => {
 };
 
 // total revenue
-const revenueCalculate = async (req: Request, res: Response) => {
+const revenueCalculate = async (req: Request, res: Response): Promise<void> => {
     try {
         const totalRevenue = await revenueCalculateService();
 

@@ -20,7 +20,6 @@ const errorHandler = (
 
     res.status(statusCode).json({
         success: false,
-        // message: error.message || "Something went wrong",
         message,
         additionalData,
         error: {
@@ -28,6 +27,7 @@ const errorHandler = (
             details: errorDetails || null,
         },
     });
+    next()
 };
 
 export { errorHandler };

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProductService = exports.updateProductService = exports.getSingleProductService = exports.getProductQueryService = exports.createProductService = void 0;
 const mongoose_1 = require("mongoose");
 const bike_model_1 = require("./bike.model");
+const CustomError_1 = require("../../utils/CustomError");
 // Service to create a new product
 const createProductService = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -20,7 +21,8 @@ const createProductService = (data) => __awaiter(void 0, void 0, void 0, functio
         return result; // Return the saved product
     }
     catch (error) {
-        throw new Error(error.message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError_1.CustomError((error === null || error === void 0 ? void 0 : error.message) || 'Something went wrong');
     }
 });
 exports.createProductService = createProductService;
@@ -38,23 +40,30 @@ const getProductQueryService = (searchTerm) => __awaiter(void 0, void 0, void 0,
                 ],
             };
         }
-        const products = yield bike_model_1.Product.find(query); // Fetch products matching the query from the database
+        const products = searchTerm
+            ? yield bike_model_1.Product.find(query)
+            : yield bike_model_1.Product.find({}); // Fetch products matching the query from the database
         return products; // Return the fetched products
     }
     catch (error) {
-        throw new Error(error.message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError_1.CustomError((error === null || error === void 0 ? void 0 : error.message) || 'Something went wrong');
     }
 });
 exports.getProductQueryService = getProductQueryService;
 // Service to fetch a single product by its ID
 const getSingleProductService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!mongoose_1.Types.ObjectId.isValid(id)) {
+            throw new CustomError_1.CustomError('Invalid Id format');
+        }
         const objectId = new mongoose_1.Types.ObjectId(id); // Convert the string ID to a MongoDB ObjectId
         const result = yield bike_model_1.Product.aggregate([{ $match: { _id: objectId } }]); // Use aggregation to fetch the product by ID
-        return result; // Return the matched product
+        return result[0] || null; // Return the matched product
     }
     catch (error) {
-        throw new Error(error.message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError_1.CustomError((error === null || error === void 0 ? void 0 : error.message) || 'Something went wrong');
     }
 });
 exports.getSingleProductService = getSingleProductService;
@@ -71,7 +80,8 @@ const updateProductService = (id, data) => __awaiter(void 0, void 0, void 0, fun
         return result; // Return the updated product
     }
     catch (error) {
-        throw new Error(error.message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError_1.CustomError((error === null || error === void 0 ? void 0 : error.message) || 'Something went wrong');
     }
 });
 exports.updateProductService = updateProductService;
@@ -88,7 +98,8 @@ const deleteProductService = (id) => __awaiter(void 0, void 0, void 0, function*
         return result; // Return the updated product
     }
     catch (error) {
-        throw new Error(error.message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError_1.CustomError((error === null || error === void 0 ? void 0 : error.message) || 'Something went wrong');
     }
 });
 exports.deleteProductService = deleteProductService;

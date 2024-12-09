@@ -1,7 +1,9 @@
-import { model, Schema } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 import { IBike } from './bike.interface';
 
-const productSchema = new Schema<IBike>(
+// Ensure that IBike extends Document for proper type inference
+interface IProduct extends IBike, Document {}
+const productSchema = new Schema<IProduct>(
     {
         name: {
             type: String,
@@ -71,12 +73,11 @@ productSchema.pre('find', async function (next) {
 
 // aggregation --> spacific user find but deleted
 productSchema.pre('aggregate', async function (next) {
-    const pipeline = this.pipeline();
-    
+    const pipeline = this.pipeline();    
     pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
     next();
 });
 
-const Product = model<IBike>('Product', productSchema);
+const Product = model<IProduct>('Product', productSchema);
 
 export { Product };

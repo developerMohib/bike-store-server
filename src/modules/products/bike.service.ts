@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { IBike } from './bike.interface';
 import { Product } from './bike.model';
-import { IError } from '../../utils/CustomError';
+import { CustomError, IError } from '../../utils/CustomError';
 
 // Service to create a new product
 const createProductService = async (data: IBike): Promise<IBike> => {
@@ -10,7 +10,10 @@ const createProductService = async (data: IBike): Promise<IBike> => {
         const result = await newProduct.save(); // Save the product to the database
         return result; // Return the saved product
     } catch (error) {
-        throw new Error((error as IError).message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError(
+            (error as IError)?.message || 'Something went wrong'
+        );
     }
 };
 
@@ -31,28 +34,40 @@ const getProductQueryService = async (
             };
         }
 
-        const products = await Product.find(query); // Fetch products matching the query from the database
+        const products = searchTerm
+            ? await Product.find(query)
+            : await Product.find({}); // Fetch products matching the query from the database
         return products; // Return the fetched products
     } catch (error) {
-        throw new Error((error as IError).message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError(
+            (error as IError)?.message || 'Something went wrong'
+        );
     }
 };
 
 // Service to fetch a single product by its ID
 const getSingleProductService = async (id: string): Promise<IBike[] | null> => {
     try {
+        if (!Types.ObjectId.isValid(id)) {
+            throw new CustomError('Invalid Id format');
+        }
         const objectId = new Types.ObjectId(id); // Convert the string ID to a MongoDB ObjectId
+
         const result = await Product.aggregate([{ $match: { _id: objectId } }]); // Use aggregation to fetch the product by ID
-        return result; // Return the matched product
+        return result[0] || null; // Return the matched product
     } catch (error) {
-        throw new Error((error as IError).message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError(
+            (error as IError)?.message || 'Something went wrong'
+        );
     }
 };
 
 // Service to update a product by its ID
 const updateProductService = async (
     id: string,
-    data: IBike
+    data: Partial<IBike>
 ): Promise<IBike | null> => {
     try {
         const objectId = new Types.ObjectId(id); // Convert the string ID to a MongoDB ObjectId
@@ -67,7 +82,10 @@ const updateProductService = async (
 
         return result; // Return the updated product
     } catch (error) {
-        throw new Error((error as IError).message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError(
+            (error as IError)?.message || 'Something went wrong'
+        );
     }
 };
 
@@ -85,7 +103,10 @@ const deleteProductService = async (id: string): Promise<IBike | null> => {
         );
         return result; // Return the updated product
     } catch (error) {
-        throw new Error((error as IError).message); // Throw an error if something goes wrong
+        // throw new Error((error as IError).message); // Throw an error if something goes wrong
+        throw new CustomError(
+            (error as IError)?.message || 'Something went wrong'
+        );
     }
 };
 

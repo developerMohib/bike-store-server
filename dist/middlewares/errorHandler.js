@@ -10,7 +10,6 @@ const errorHandler = (error, req, res, next) => {
     const errorDetails = error.name === 'ValidationError' ? error.errors : null;
     res.status(statusCode).json({
         success: false,
-        // message: error.message || "Something went wrong",
         message,
         additionalData,
         error: {
@@ -18,5 +17,6 @@ const errorHandler = (error, req, res, next) => {
             details: errorDetails || null,
         },
     });
+    next();
 };
 exports.errorHandler = errorHandler;
