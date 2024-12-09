@@ -81,7 +81,7 @@ const getProductQuery = async (req: Request, res: Response): Promise<void> => {
 // get single product
 const getSingleProduct = async (req: Request, res: Response): Promise<void> => {
     try {
-        const productId :string = req.params.productId;
+        const productId: string = req.params.productId;
         const result = await getSingleProductService(productId);
 
         if (!result || result.length === 0) {
@@ -119,7 +119,7 @@ const getSingleProduct = async (req: Request, res: Response): Promise<void> => {
 // update single product
 const updateOneProduct = async (req: Request, res: Response): Promise<void> => {
     try {
-        const productId :string = req.params.productId;
+        const productId: string = req.params.productId;
         const newData: Partial<IBike> = req.body.newData;
         const result = await updateProductService(productId, newData);
         res.status(200).json({
@@ -147,7 +147,7 @@ const updateOneProduct = async (req: Request, res: Response): Promise<void> => {
 // delete single product
 const deleteProduct = async (req: Request, res: Response): Promise<void> => {
     try {
-        const productId :string = req.params.productId;
+        const productId: string = req.params.productId;
         await deleteProductService(productId);
         res.status(200).json({
             success: true,

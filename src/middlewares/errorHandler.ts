@@ -9,7 +9,9 @@ const errorHandler = (
     next: NextFunction
 ): void => {
     const message =
-        error instanceof CustomError ? error.message : 'something went wrong define';
+        error instanceof CustomError
+            ? error.message
+            : 'something went wrong define';
     const statusCode = error instanceof CustomError ? error.statusCode : 500;
     const additionalData =
         error instanceof CustomError ? error.additionalData : null;
@@ -27,7 +29,7 @@ const errorHandler = (
             details: errorDetails || null,
         },
     });
-    next()
+    next();
 };
 
 export { errorHandler };

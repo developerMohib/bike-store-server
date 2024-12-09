@@ -44,10 +44,10 @@ const revenueCalculateService = async () => {
         const calculateRevenue = await Order.aggregate([
             {
                 $lookup: {
-                    from: 'products',       // this the collection
-                    localField: 'product',  // in local field i save id to product - local means order collection
-                    foreignField: '_id',    // in product collection data save with _id
-                    as: 'totalProducts',    // i save data by named products details
+                    from: 'products', // this the collection
+                    localField: 'product', // in local field i save id to product - local means order collection
+                    foreignField: '_id', // in product collection data save with _id
+                    as: 'totalProducts', // i save data by named products details
                 },
             },
             // Unwind totalProducts => to access the price field
