@@ -8,29 +8,34 @@ const cors_1 = __importDefault(require("cors"));
 const errorHandler_1 = require("./middlewares/errorHandler");
 const bike_routes_1 = require("./modules/products/bike.routes");
 const order_routes_1 = require("./modules/order/order.routes");
+// Create an instance of the Express application
 const app = (0, express_1.default)();
-// Middleware to parse JSON bodies
+// Middleware to parse incoming JSON requests
 app.use(express_1.default.json());
 // Middleware to enable Cross-Origin Resource Sharing (CORS)
 app.use((0, cors_1.default)());
-// route for my functionality --> start
-// products routes
-app.use('/create', bike_routes_1.bikeRouter);
-app.use('/get', bike_routes_1.bikeRouter);
-app.use('/update', bike_routes_1.bikeRouter);
-app.use('/delete', bike_routes_1.bikeRouter);
-// order routes
-app.use('/create', order_routes_1.orderRouter);
-app.use('/get', order_routes_1.orderRouter);
-app.use('/delete', order_routes_1.orderRouter);
-// revenue
+// ---------------------- Routes for application functionality ----------------------
+// Bike-related routes
+// These routes handle creating, retrieving, updating, and deleting bikes
+app.use('/create', bike_routes_1.bikeRouter); // Route to create a bike
+app.use('/get', bike_routes_1.bikeRouter); // Route to retrieve bikes
+app.use('/update', bike_routes_1.bikeRouter); // Route to update a bike
+app.use('/delete', bike_routes_1.bikeRouter); // Route to delete a bike
+// Order-related routes
+// These routes handle creating, retrieving, and deleting orders
+app.use('/create', order_routes_1.orderRouter); // Route to create an order
+app.use('/get', order_routes_1.orderRouter); // Route to retrieve orders
+app.use('/delete', order_routes_1.orderRouter); // Route to delete an order
+// Additional route for revenue-related functionality
+// Example route: Fetching all orders for revenue calculations
 app.use('/api/orders', order_routes_1.orderRouter);
-// route for my functionality --> end
-// Root route
+// ---------------------- End of routes for application functionality ----------------------
+// Root route to check if the server is running
 app.get('/', (req, res) => {
     res.send('Bike shop server is ready!✌');
 });
-// Global route error handler
+// Handle requests to undefined routes
+// This middleware catches all requests to undefined routes and returns a 400 error
 app.all('*', (req, res) => {
     res.status(400).json({
         success: false,
@@ -38,9 +43,10 @@ app.all('*', (req, res) => {
     });
 });
 // Global error handler middleware
-// app.use(errorHandler);
+// Handles errors occurring in the application
+// This replaces the commented-out error handler for flexibility
 app.use((error, req, res, next) => {
     (0, errorHandler_1.errorHandler)(error, req, res, next);
 });
-// Export the app
+// Export the Express app instance for use in the server entry point
 exports.default = app;

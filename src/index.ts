@@ -4,38 +4,43 @@ import { errorHandler } from './middlewares/errorHandler';
 import { bikeRouter } from './modules/products/bike.routes';
 import { orderRouter } from './modules/order/order.routes';
 
+// Create an instance of the Express application
 const app: Application = express();
 
-// Middleware to parse JSON bodies
+// Middleware to parse incoming JSON requests
 app.use(express.json());
 
 // Middleware to enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
 
-// route for my functionality --> start
+// ---------------------- Routes for application functionality ----------------------
 
-// products routes
-app.use('/create', bikeRouter);
-app.use('/get', bikeRouter);
-app.use('/update', bikeRouter);
-app.use('/delete', bikeRouter);
+// Bike-related routes
+// These routes handle creating, retrieving, updating, and deleting bikes
+app.use('/create', bikeRouter); // Route to create a bike
+app.use('/get', bikeRouter);    // Route to retrieve bikes
+app.use('/update', bikeRouter); // Route to update a bike
+app.use('/delete', bikeRouter); // Route to delete a bike
 
-// order routes
-app.use('/create', orderRouter);
-app.use('/get', orderRouter);
-app.use('/delete', orderRouter);
+// Order-related routes
+// These routes handle creating, retrieving, and deleting orders
+app.use('/create', orderRouter); // Route to create an order
+app.use('/get', orderRouter);    // Route to retrieve orders
+app.use('/delete', orderRouter); // Route to delete an order
 
-// revenue
+// Additional route for revenue-related functionality
+// Example route: Fetching all orders for revenue calculations
 app.use('/api/orders', orderRouter);
 
-// route for my functionality --> end
+// ---------------------- End of routes for application functionality ----------------------
 
-// Root route
+// Root route to check if the server is running
 app.get('/', (req: Request, res: Response): void => {
     res.send('Bike shop server is ready!✌');
 });
 
-// Global route error handler
+// Handle requests to undefined routes
+// This middleware catches all requests to undefined routes and returns a 400 error
 app.all('*', (req: Request, res: Response): void => {
     res.status(400).json({
         success: false,
@@ -44,9 +49,11 @@ app.all('*', (req: Request, res: Response): void => {
 });
 
 // Global error handler middleware
-// app.use(errorHandler);
+// Handles errors occurring in the application
+// This replaces the commented-out error handler for flexibility
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     errorHandler(error, req, res, next);
 });
-// Export the app
+
+// Export the Express app instance for use in the server entry point
 export default app;

@@ -79,7 +79,6 @@ productSchema.pre('find', function (next) {
 productSchema.pre('aggregate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const pipeline = this.pipeline();
-        // pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
         pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
         next();
     });

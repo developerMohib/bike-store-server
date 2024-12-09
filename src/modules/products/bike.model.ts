@@ -72,7 +72,7 @@ productSchema.pre('find', async function (next) {
 // aggregation --> spacific user find but deleted
 productSchema.pre('aggregate', async function (next) {
     const pipeline = this.pipeline();
-    // pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
+    
     pipeline.unshift({ $match: { isDeleted: { $ne: true } } });
     next();
 });
