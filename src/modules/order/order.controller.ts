@@ -23,7 +23,7 @@ const createOrder = async (req: Request, res: Response): Promise<void> => {
         const existProduct = await Product.findById(product);
         if (!existProduct) {
             res.status(404).json({
-                message: 'Product not found',
+                message: 'Product not found for order',
                 status: false,
             });
             return;
@@ -123,8 +123,6 @@ const deleteOrder = async (req: Request, res: Response) => {
 // total revenue
 const revenueCalculate = async (req: Request, res: Response) => {
     try {
-        // here code
-
         const totalRevenue = await revenueCalculateService();
 
         res.status(200).json({

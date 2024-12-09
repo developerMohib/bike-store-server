@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import {
     createProductService,
     deleteProductService,
-    getProductService,
+    getProductQueryService,
     getSingleProductService,
     updateProductService,
 } from './bike.service';
@@ -41,10 +41,11 @@ const createProduct = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-// get all products
-const getProduct = async (req: Request, res: Response): Promise<void> => {
+// get all products with query
+const getProductQuery = async (req: Request, res: Response): Promise<void> => {
     try {
-        const result = await getProductService();
+        const { searchTerm } = req.query;
+        const result = await getProductQueryService(searchTerm as string);
         if (!result || result.length === 0) {
             res.status(404).json({
                 success: true,
@@ -173,7 +174,7 @@ const deleteProduct = async (req: Request, res: Response): Promise<void> => {
 // export here
 export {
     createProduct,
-    getProduct,
+    getProductQuery,
     getSingleProduct,
     updateOneProduct,
     deleteProduct,

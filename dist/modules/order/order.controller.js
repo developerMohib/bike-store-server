@@ -26,7 +26,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const existProduct = yield bike_model_1.Product.findById(product);
         if (!existProduct) {
             res.status(404).json({
-                message: 'Product not found',
+                message: 'Product not found for order',
                 status: false,
             });
             return;
@@ -129,7 +129,6 @@ exports.deleteOrder = deleteOrder;
 // total revenue
 const revenueCalculate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // here code
         const totalRevenue = yield (0, order_service_1.revenueCalculateService)();
         res.status(200).json({
             message: 'Revenue calculated successfully',

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProductService = exports.updateProductService = exports.getSingleProductService = exports.getProductService = exports.createProductService = void 0;
+exports.deleteProductService = exports.updateProductService = exports.getSingleProductService = exports.getProductQueryService = exports.createProductService = void 0;
 const mongoose_1 = require("mongoose");
 const bike_model_1 = require("./bike.model");
 const createProductService = (data) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,16 +24,28 @@ const createProductService = (data) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.createProductService = createProductService;
 // get all products
-const getProductService = () => __awaiter(void 0, void 0, void 0, function* () {
+const getProductQueryService = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield bike_model_1.Product.find();
-        return result;
+        let query = {};
+        if (searchTerm) {
+            query = {
+                $or: [
+                    { name: { $regex: searchTerm, $options: 'i' } },
+                    { brand: { $regex: searchTerm, $options: 'i' } },
+                    { category: { $regex: searchTerm, $options: 'i' } },
+                ],
+            };
+        }
+        // Fetch products from the database
+        const products = yield bike_model_1.Product.find(query);
+        // Send success response
+        return products;
     }
     catch (error) {
         throw new Error(error.message);
     }
 });
-exports.getProductService = getProductService;
+exports.getProductQueryService = getProductQueryService;
 // get single product
 const getSingleProductService = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {

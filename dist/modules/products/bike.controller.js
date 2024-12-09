@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.updateOneProduct = exports.getSingleProduct = exports.getProduct = exports.createProduct = void 0;
+exports.deleteProduct = exports.updateOneProduct = exports.getSingleProduct = exports.getProductQuery = exports.createProduct = void 0;
 const bike_service_1 = require("./bike.service");
 const CustomError_1 = require("../../utils/CustomError");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,10 +44,11 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.createProduct = createProduct;
-// get all products
-const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// get all products with query
+const getProductQuery = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield (0, bike_service_1.getProductService)();
+        const { searchTerm } = req.query;
+        const result = yield (0, bike_service_1.getProductQueryService)(searchTerm);
         if (!result || result.length === 0) {
             res.status(404).json({
                 success: true,
@@ -80,7 +81,7 @@ const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
     }
 });
-exports.getProduct = getProduct;
+exports.getProductQuery = getProductQuery;
 // get single product
 const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

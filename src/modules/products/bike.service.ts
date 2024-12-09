@@ -13,11 +13,26 @@ const createProductService = async (data: IBike): Promise<IBike> => {
     }
 };
 
+
 // get all products
-const getProductService = async (): Promise<IBike[] | null> => {
+const getProductQueryService = async (searchTerm?: string): Promise<IBike[] | null> => {
     try {
-        const result = await Product.find();
-        return result;
+        let query = {};
+        if (searchTerm) {
+            query = {
+                $or: [
+                    { name: { $regex: searchTerm, $options: 'i' } },
+                    { brand: { $regex: searchTerm, $options: 'i' } },
+                    { category: { $regex: searchTerm, $options: 'i' } },
+                ],
+            };
+        }
+
+        // Fetch products from the database
+        const products = await Product.find(query);
+
+        // Send success response
+        return products;
     } catch (error) {
         throw new Error((error as IError).message);
     }
@@ -78,7 +93,7 @@ const deleteProductService = async (id: string): Promise<IBike | null> => {
 // export here
 export {
     createProductService,
-    getProductService,
+    getProductQueryService,
     getSingleProductService,
     updateProductService,
     deleteProductService,

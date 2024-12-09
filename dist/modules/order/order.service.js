@@ -54,20 +54,20 @@ const revenueCalculateService = () => __awaiter(void 0, void 0, void 0, function
                     from: 'products', // this the collection
                     localField: 'product', // in local field i save id to product - local means order collection
                     foreignField: '_id', // in product collection data save with _id
-                    as: 'productDetails',
+                    as: 'totalProducts', // i save data by named products details
                 },
             },
-            // Unwind productDetails => to access the price field
-            { $unwind: '$productDetails' },
+            // Unwind totalProducts => to access the price field
+            { $unwind: '$totalProducts' },
             // Project price fields and calculate revenue per order
             {
                 $project: {
                     email: 1,
                     product: 1,
                     quantity: 1,
-                    productPrice: '$productDetails.price',
+                    productPrice: '$totalProducts.price',
                     orderRevenue: {
-                        $multiply: ['$quantity', '$productDetails.price'],
+                        $multiply: ['$quantity', '$totalProducts.price'],
                     },
                 },
             },
