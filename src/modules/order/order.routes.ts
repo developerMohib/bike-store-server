@@ -8,9 +8,9 @@ import {
 
 const router = Router();
 
-router.post('/api/orders', createOrder);
-router.get('/api/orders', getOrders);
-router.delete('/api/orders/:id', deleteOrder);
+router.post('/orders', createOrder);
+router.get('/orders', getOrders);
+router.delete('/orders/:id', deleteOrder);
 
 // revenue
 router.get('/revenue', revenueCalculate);

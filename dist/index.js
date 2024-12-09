@@ -17,15 +17,10 @@ app.use((0, cors_1.default)());
 // ---------------------- Routes for application functionality ----------------------
 // Bike-related routes
 // These routes handle creating, retrieving, updating, and deleting bikes
-app.use('/create', bike_routes_1.bikeRouter); // Route to create a bike
-app.use('/get', bike_routes_1.bikeRouter); // Route to retrieve bikes
-app.use('/update', bike_routes_1.bikeRouter); // Route to update a bike
-app.use('/delete', bike_routes_1.bikeRouter); // Route to delete a bike
+app.use('/api', bike_routes_1.bikeRouter); // Route to create a bike
 // Order-related routes
 // These routes handle creating, retrieving, and deleting orders
-app.use('/create', order_routes_1.orderRouter); // Route to create an order
-app.use('/get', order_routes_1.orderRouter); // Route to retrieve orders
-app.use('/delete', order_routes_1.orderRouter); // Route to delete an order
+app.use('/api', order_routes_1.orderRouter); // Route to create an order
 // Additional route for revenue-related functionality
 // Example route: Fetching all orders for revenue calculations
 app.use('/api/orders', order_routes_1.orderRouter);
